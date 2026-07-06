@@ -13,11 +13,11 @@
 ## Uso de Inteligencia Artificial
  - IA Utilizada: Gemini
  - Usos:
-   Se utilizo para generar ideas sobre posibles implementaciones, e ideas de como estructurar bien el archivo README.
-   Solucionar errores de sintaxis.
-   Implementación de lectura y generación de archivos txt.
-   Se solicitaron bloques de código modulares que luego el equipo analizó, adaptó y testeó antes de integrarlos al archivo principal.
-   Se solicito la posibilidad de simplificar bloques de código.
+   -Se utilizo para generar ideas sobre posibles implementaciones, e ideas de como estructurar bien el archivo README.
+   -Solucionar errores de sintaxis.
+   -Implementación de lectura y generación de archivos txt.
+   -Se solicitaron bloques de código modulares que luego el equipo analizó, adaptó y testeó antes de integrarlos al archivo principal.
+   -Se solicito la posibilidad de simplificar bloques de código.
    
 ## Descripción General
 Este proyecto es un Trabajo Final Integrador desarrollado en Python que simula el funcionamiento básico de una caja de supermercado. Permite la carga de productos, cálculo de totales con aplicación automática de promociones (10% de descuento en compras superiores a $15000), generación de tickets por consola y un registro estadístico de ventas (recaudación total y productos más vendidos).
