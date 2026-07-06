@@ -8,7 +8,8 @@
 - Franco Rolando Nahuel TEJERINA
 - Villalba Luciano Alberto
 
-## Comisión: k1.4
+## Comisión: k1.4 - Grupo D38
+## Link del video:
 
 ## Uso de Inteligencia Artificial
  - IA Utilizada: Gemini
