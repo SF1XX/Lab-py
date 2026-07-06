@@ -6,6 +6,17 @@ def mostrar_menu():
     print("4. Salir")
     print("-------------------------------------")
 
+def generar_ticket(carrito, total_sin_descuento):
+    print("\n" + "="*30)
+    print("          TICKET DE COMPRA          ")
+    print("="*30)
+    for item in carrito:
+        print(f"{item['cantidad']}x {item['nombre']} - ${item['subtotal']:.2f}")
+    print("-" * 30)
+    print(f"TOTAL A PAGAR: ${total_sin_descuento:.2f}")
+    print("="*30 + "\n")
+    return total_sin_descuento
+
 def main():
     inventario = {
         "1": {"nombre": "Yogur Tregar", "precio": 1200},
@@ -13,7 +24,7 @@ def main():
         "3": {"nombre": "Pechuga de Pollo (1kg)", "precio": 6500},
         "4": {"nombre": "Huevos (Docena)", "precio": 2200}
     }
-
+    
     carrito = []
     total_actual = 0.0
 
@@ -56,7 +67,13 @@ def main():
                     print("Error: Código de producto no válido.")
 
         elif opcion == "2":
-            print("\nEn desarrollo...")
+            if len(carrito) > 0:
+                generar_ticket(carrito, total_actual)
+                carrito = []
+                total_actual = 0.0
+            else:
+                print("\nError: Debe agregar productos al carrito primero (Opción 1).")
+
         elif opcion == "3":
             print("\nEn desarrollo...")
         elif opcion == "4":
