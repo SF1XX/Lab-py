@@ -20,3 +20,13 @@ Este proyecto es un Trabajo Final Integrador desarrollado en Python que simula e
 4. Ejecuta el siguiente comando:
    ```bash
    python main.py
+
+## Vista previa del Proyecto
+- Menu principal
+  ![Menu](1.png)
+- Opción de cargar productos al carrito
+  ![Carriro](2.png)
+- Impresión de ticket
+  ![Ticket](3.png)
+- Estadisticas de venta
+  ![Ventas](4.png)
