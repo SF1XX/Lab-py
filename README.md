@@ -23,10 +23,10 @@ Este proyecto es un Trabajo Final Integrador desarrollado en Python que simula e
 
 ## Vista previa del Proyecto
 - Menu principal
-  ![Menu](1.PNG)
+  ![Menu](capturas/menu.PNG)
 - Opción de cargar productos al carrito
-  ![Carriro](2.PNG)
+  ![Carriro](capturas/catalogo.PNG)
 - Impresión de ticket
-  ![Ticket](3.PNG)
+  ![Ticket](capturas/ticket.PNG)
 - Estadisticas de venta
-  ![Ventas](4.PNG)
+  ![Ventas](capturas/ventas.PNG)
