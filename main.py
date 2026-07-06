@@ -6,16 +6,40 @@ def mostrar_menu():
     print("4. Salir")
     print("-------------------------------------")
 
+def aplicar_descuento(total):
+    """Aplica un descuento del 10% si la compra supera los $15000."""
+    if total > 15000:
+        descuento = total * 0.10
+        print(f"\n¡Promoción aplicada! Descuento del 10%: -${descuento:.2f}")
+        return total - descuento
+    return total
+
 def generar_ticket(carrito, total_sin_descuento):
+    """Imprime el ticket de la compra actual."""
     print("\n" + "="*30)
     print("          TICKET DE COMPRA          ")
     print("="*30)
     for item in carrito:
         print(f"{item['cantidad']}x {item['nombre']} - ${item['subtotal']:.2f}")
     print("-" * 30)
-    print(f"TOTAL A PAGAR: ${total_sin_descuento:.2f}")
+    
+    total_final = aplicar_descuento(total_sin_descuento)
+    print(f"TOTAL A PAGAR: ${total_final:.2f}")
     print("="*30 + "\n")
-    return total_sin_descuento
+    return total_final
+
+def mostrar_estadisticas(total_recaudado, registro_ventas):
+    """Muestra los productos más vendidos y el dinero total acumulado."""
+    print("\n--- ESTADÍSTICAS DE VENTAS ---")
+    print(f"Total de ingresos acumulados: ${total_recaudado:.2f}")
+    
+    if not registro_ventas:
+        print("Aún no se han vendido productos.")
+    else:
+        print("Productos vendidos:")
+        for nombre, cantidad in registro_ventas.items():
+            print(f"- {nombre}: {cantidad} unidades")
+    print("------------------------------")
 
 def main():
     inventario = {
@@ -24,7 +48,12 @@ def main():
         "3": {"nombre": "Pechuga de Pollo (1kg)", "precio": 6500},
         "4": {"nombre": "Huevos (Docena)", "precio": 2200}
     }
+
+    # Acumuladores y contadores generales
+    total_recaudado = 0.0
+    registro_ventas = {}
     
+    # Variables del carrito actual (ahora son accesibles para la opción 2)
     carrito = []
     total_actual = 0.0
 
@@ -59,7 +88,10 @@ def main():
                             "subtotal": subtotal
                         })
                         
-                        print(f"-> {cantidad}x {inventario[seleccion]['nombre']} agregado(s) correctamente.")
+                        nombre_prod = inventario[seleccion]["nombre"]
+                        registro_ventas[nombre_prod] = registro_ventas.get(nombre_prod, 0) + cantidad
+                        
+                        print(f"-> {cantidad}x {nombre_prod} agregado(s) correctamente.")
                         
                     except ValueError:
                         print("Error: Por favor, ingrese un número entero válido.")
@@ -68,19 +100,24 @@ def main():
 
         elif opcion == "2":
             if len(carrito) > 0:
-                generar_ticket(carrito, total_actual)
+                total_cobrado = generar_ticket(carrito, total_actual)
+                total_recaudado += total_cobrado
+                
+                # Vaciar el carrito para la próxima compra
                 carrito = []
                 total_actual = 0.0
             else:
                 print("\nError: Debe agregar productos al carrito primero (Opción 1).")
 
         elif opcion == "3":
-            print("\nEn desarrollo...")
+            mostrar_estadisticas(total_recaudado, registro_ventas)
+
         elif opcion == "4":
             print("\nSaliendo del sistema de caja... ¡Hasta luego!")
             break
+
         else:
             print("\nError: Opción incorrecta. Intente nuevamente.")
-
+            
 if __name__ == "__main__":
     main()
