@@ -1,0 +1,14 @@
+1,Yogur Tregar,1200
+2,Fiambre Paladini,3500
+3,Pechuga de Pollo (1kg),6500
+4,Huevos (Docena),2200
+5,Leche Entera La Serenísima (1L),1500
+6,Vinagre de Alcohol Menoyo (500ml),800
+7,Limón (1kg),1000
+8,Avena Tradicional Quaker (500g),2000
+9,Atún al Natural La Campagnola (170g),2500
+10,Pasta de Maní King (500g),3200
+11,Yogur Ser Pro Más (175g),1800
+12,Helado Grido (1kg),8000
+13,Arroz Blanco Gallo (1kg),2100
+14,Fideos de Sémola Matarazzo (500g),1300

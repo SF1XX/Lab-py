@@ -1,3 +1,19 @@
+def cargar_inventario():
+    inventario = {}
+    with open("productos.txt", "r") as f:
+        for linea in f:
+            if linea.strip():
+                codigo, nombre, precio = linea.strip().split(",")
+                inventario[codigo] = {"nombre": nombre, "precio": float(precio)}
+    return inventario
+
+def guardar_venta_estadisticas(carrito, total_final):
+    with open("estadisticas.txt", "a") as f:
+        f.write(f"Venta | Total: ${total_final:.2f} | Productos: ")
+        for item in carrito:
+            f.write(f"{item['cantidad']}x {item['nombre']}, ")
+        f.write("\n")
+
 def mostrar_menu():
     print("\n--- SISTEMA DE CAJA: SUPERMERCADO ---")
     print("1. Agregar producto al carrito")
@@ -6,16 +22,7 @@ def mostrar_menu():
     print("4. Salir")
     print("-------------------------------------")
 
-def aplicar_descuento(total):
-    """Aplica un descuento del 10% si la compra supera los $15000."""
-    if total > 15000:
-        descuento = total * 0.10
-        print(f"\n¡Promoción aplicada! Descuento del 10%: -${descuento:.2f}")
-        return total - descuento
-    return total
-
 def generar_ticket(carrito, total_sin_descuento):
-    """Imprime el ticket de la compra actual."""
     print("\n" + "="*30)
     print("          TICKET DE COMPRA          ")
     print("="*30)
@@ -23,15 +30,19 @@ def generar_ticket(carrito, total_sin_descuento):
         print(f"{item['cantidad']}x {item['nombre']} - ${item['subtotal']:.2f}")
     print("-" * 30)
     
-    total_final = aplicar_descuento(total_sin_descuento)
+    total_final = total_sin_descuento
+    if total_final > 15000:
+        descuento = total_final * 0.10
+        total_final -= descuento
+        print(f"¡Promoción aplicada! Descuento 10%: -${descuento:.2f}")
+        
     print(f"TOTAL A PAGAR: ${total_final:.2f}")
     print("="*30 + "\n")
     return total_final
 
 def mostrar_estadisticas(total_recaudado, registro_ventas):
-    """Muestra los productos más vendidos y el dinero total acumulado."""
     print("\n--- ESTADÍSTICAS DE VENTAS ---")
-    print(f"Total de ingresos acumulados: ${total_recaudado:.2f}")
+    print(f"Total ingresos: ${total_recaudado:.2f}")
     
     if not registro_ventas:
         print("Aún no se han vendido productos.")
@@ -42,18 +53,9 @@ def mostrar_estadisticas(total_recaudado, registro_ventas):
     print("------------------------------")
 
 def main():
-    inventario = {
-        "1": {"nombre": "Yogur Tregar", "precio": 1200},
-        "2": {"nombre": "Fiambre Paladini", "precio": 3500},
-        "3": {"nombre": "Pechuga de Pollo (1kg)", "precio": 6500},
-        "4": {"nombre": "Huevos (Docena)", "precio": 2200}
-    }
-
-    # Acumuladores y contadores generales
+    inventario = cargar_inventario()
     total_recaudado = 0.0
     registro_ventas = {}
-    
-    # Variables del carrito actual (ahora son accesibles para la opción 2)
     carrito = []
     total_actual = 0.0
 
@@ -65,18 +67,19 @@ def main():
             while True:
                 print("\nProductos disponibles:")
                 for key, prod in inventario.items():
-                    print(f"[{key}] {prod['nombre']} - ${prod['precio']}")
-                print("[0] Terminar carga de productos")
+                    print(f"[{key}] {prod['nombre']} - ${prod['precio']:.2f}")
+                print("[0] Terminar carga")
                 
-                seleccion = input("Ingrese el código del producto: ")
+                seleccion = input("Ingrese el código: ")
                 
                 if seleccion == "0":
                     break
-                elif seleccion in inventario:
+                
+                if seleccion in inventario:
                     try:
-                        cantidad = int(input(f"Ingrese la cantidad de '{inventario[seleccion]['nombre']}': "))
+                        cantidad = int(input(f"Cantidad de '{inventario[seleccion]['nombre']}': "))
                         if cantidad <= 0:
-                            print("Error: La cantidad debe ser mayor a cero.")
+                            print("Error: Cantidad inválida.")
                             continue
                         
                         subtotal = inventario[seleccion]["precio"] * cantidad
@@ -87,37 +90,36 @@ def main():
                             "cantidad": cantidad,
                             "subtotal": subtotal
                         })
-                        
-                        nombre_prod = inventario[seleccion]["nombre"]
-                        registro_ventas[nombre_prod] = registro_ventas.get(nombre_prod, 0) + cantidad
-                        
-                        print(f"-> {cantidad}x {nombre_prod} agregado(s) correctamente.")
+                        print(f"-> Agregado correctamente.")
                         
                     except ValueError:
-                        print("Error: Por favor, ingrese un número entero válido.")
+                        print("Error: Ingrese un número válido.")
                 else:
-                    print("Error: Código de producto no válido.")
+                    print("Error: Código no válido.")
 
         elif opcion == "2":
-            if len(carrito) > 0:
+            if carrito:
                 total_cobrado = generar_ticket(carrito, total_actual)
                 total_recaudado += total_cobrado
+                guardar_venta_estadisticas(carrito, total_cobrado)
                 
-                # Vaciar el carrito para la próxima compra
-                carrito = []
+                for item in carrito:
+                    registro_ventas[item['nombre']] = registro_ventas.get(item['nombre'], 0) + item['cantidad']
+                
+                carrito.clear()
                 total_actual = 0.0
             else:
-                print("\nError: Debe agregar productos al carrito primero (Opción 1).")
+                print("\nError: Carrito vacío.")
 
         elif opcion == "3":
             mostrar_estadisticas(total_recaudado, registro_ventas)
 
         elif opcion == "4":
-            print("\nSaliendo del sistema de caja... ¡Hasta luego!")
+            print("\nSaliendo...")
             break
 
         else:
-            print("\nError: Opción incorrecta. Intente nuevamente.")
-            
+            print("\nError: Opción incorrecta.")
+
 if __name__ == "__main__":
     main()
