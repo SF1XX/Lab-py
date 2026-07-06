@@ -8,7 +8,7 @@
 - Franco Rolando Nahuel TEJERINA
 - Villalba Luciano Alberto
 
-- Comisión: k1.4
+## Comisión: k1.4
 
 ## Descripción General
 Este proyecto es un Trabajo Final Integrador desarrollado en Python que simula el funcionamiento básico de una caja de supermercado. Permite la carga de productos, cálculo de totales con aplicación automática de promociones (10% de descuento en compras superiores a $15000), generación de tickets por consola y un registro estadístico de ventas (recaudación total y productos más vendidos).
