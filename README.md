@@ -2,8 +2,6 @@
 
 ## Información del Equipo
 - Integrantes:
-- Luz Lara Caballero
-- Guillermo Joaquín De Greef
 - Alan Quenardelle
 - Franco Rolando Nahuel TEJERINA
 - Villalba Luciano Alberto
