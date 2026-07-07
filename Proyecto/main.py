@@ -1,13 +1,20 @@
+# Umbral y porcentaje de descuento por compras grandes
+UMBRAL_DESCUENTO = 15000
+PORCENTAJE_DESCUENTO = 0.10
+
 def cargar_inventario():
     inventario = {}
-    # Abre el archivo en modo lectura ("r")
-    with open("productos.txt", "r") as f:
-        for linea in f:
-            # Ignora líneas en blanco
-            if linea.strip():
-                # Separa el código, nombre y precio usando la coma
-                codigo, nombre, precio = linea.strip().split(",")
-                inventario[codigo] = {"nombre": nombre, "precio": float(precio)}
+    try:
+        # Abre el archivo en modo lectura ("r")
+        with open("productos.txt", "r") as f:
+            for linea in f:
+                # Ignora líneas en blanco
+                if linea.strip():
+                    # Separa el código, nombre y precio usando la coma
+                    codigo, nombre, precio = linea.strip().split(",")
+                    inventario[codigo] = {"nombre": nombre, "precio": float(precio)}
+    except FileNotFoundError:
+        print("Error: No se encontró el archivo 'productos.txt'. El inventario quedará vacío.")
     return inventario
 
 def guardar_venta_estadisticas(carrito, total_final):
@@ -39,10 +46,10 @@ def generar_ticket(carrito, total_sin_descuento):
     print("-" * 30)
     
     total_final = total_sin_descuento
-    if total_final > 15000:   # Aplica descuento del 10% si supera los $15000
-        descuento = total_final * 0.10
+    if total_final > UMBRAL_DESCUENTO:   # Aplica descuento si supera el umbral
+        descuento = total_final * PORCENTAJE_DESCUENTO
         total_final -= descuento
-        print(f"¡Promoción aplicada! Descuento 10%: -${descuento:.2f}")
+        print(f"¡Promoción aplicada! Descuento {int(PORCENTAJE_DESCUENTO*100)}%: -${descuento:.2f}")
         
     print(f"TOTAL A PAGAR: ${total_final:.2f}")
     print("="*30 + "\n")
@@ -59,6 +66,10 @@ def mostrar_estadisticas(total_recaudado, registro_ventas):
         print("Productos vendidos:")
         for nombre, cantidad in registro_ventas.items():
             print(f"- {nombre}: {cantidad} unidades")
+
+        # Determina el producto con más unidades vendidas
+        mas_vendido = max(registro_ventas, key=registro_ventas.get)
+        print(f"\nProducto más vendido: {mas_vendido} ({registro_ventas[mas_vendido]} unidades)")
     print("------------------------------")
 
 def main():
