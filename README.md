@@ -7,7 +7,7 @@
 - Villalba Luciano Alberto
 
 ## Comisión: k1.4 - Grupo D38
-## Link del video:
+## Link del video: https://youtu.be/cFQKmu9_RKU?si=AB7dsS8bkbVluUhb
 
 ## Uso de Inteligencia Artificial
  - IA Utilizada: Gemini
